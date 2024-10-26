@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Events</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input {
+            width: 70%;
+            padding: 7px;
+            border: 1px solid black;
+            border-radius: 5px;
+            margin: 10px 0px;
+        }
+        button {
+            max-width: 15%;
+            margin-top: 10px;
+            padding: 7px;
+            background-color: inherit;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <form id="signupForm" action="/submit" method="post">
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" onkeyup="validateEmail()" placeholder="Example@email.com">
+        <span id="emailError" class="error"></span>
+        <br>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" onkeyup="validatePassword()" placeholder="Your Password">
+        <span id="passwordError" class="error"></span>
+        <br>
+        <span id="formStatus"></span>
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+        function validateEmail() {
+            const email = document.getElementById('email').value;
+            const emailError = document.getElementById('emailError');
+            const formStatus = document.getElementById('formStatus');
+
+            if (email.length > 3 && email.includes('@') && email.includes('.')) {
+                emailError.textContent = '';
+                formStatus.textContent = '';
+            } else {
+                emailError.textContent = 'Make sure email is more than 3 characters and has @ and a .';
+            }
+        }
+
+        function validatePassword() {
+            const password = document.getElementById('password').value;
+            const passwordError = document.getElementById('passwordError');
+            const formStatus = document.getElementById('formStatus');
+
+            if (password.length > 8) {
+                passwordError.textContent = '';
+                formStatus.textContent = '';
+            } else {
+                passwordError.textContent = 'Make sure password is more than 8 characters.';
+            }
+        }
+
+        function resetFormAndErrors() {
+            document.getElementById('signupForm').reset();
+            document.getElementById('emailError').textContent = '';
+            document.getElementById('passwordError').textContent = '';
+            document.getElementById('formStatus').textContent = '';
+        }
+
+        function submitForm() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const formStatus = document.getElementById('formStatus');
+
+            if (email.length > 3 && email.includes('@') && email.includes('.') && password.length > 8) {
+                formStatus.textContent = 'All good to go!';
+                formStatus.className = 'success';
+                formStatus.style.display = 'inline';
+
+                if (confirm('Are you sure you want to submit the form?')) {
+                    alert('Successful signup!');
+                } else {
+                    resetFormAndErrors();
+                    window.location.href = window.location.href;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
